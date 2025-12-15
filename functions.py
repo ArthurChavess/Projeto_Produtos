@@ -71,6 +71,7 @@ def adicionar_produto(lista, id_atual):
 
     lista.append(produto)
     print(f"Produto '{nome}' adicionado com sucesso!")
+    
 
 
 def listar_produtos(lista):

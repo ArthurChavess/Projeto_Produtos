@@ -1,5 +1,5 @@
 from functions import adicionar_produto, listar_produtos, atualizar_produtos, remover_produtos
-from persistencia import carregar_produtos, calcular_proximo_id
+from persistencia import carregar_produtos, calcular_proximo_id, salvar_produtos
 
 produtos = carregar_produtos()
 id_atual = calcular_proximo_id(produtos)
@@ -24,15 +24,18 @@ while True:
     if opcao == 1:
         adicionar_produto(produtos, id_atual)
         id_atual += 1
+        salvar_produtos(produtos)
 
     elif opcao == 2:
         listar_produtos(produtos)
 
     elif opcao == 3:
         atualizar_produtos(produtos)
+        salvar_produtos(produtos)
 
     elif opcao == 4:
         remover_produtos(produtos)
+        salvar_produtos(produtos)
     
     elif opcao == 5:
         print("Você saiu do sistema!")
