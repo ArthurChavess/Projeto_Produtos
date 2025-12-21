@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 import os, json
 
 def carregar_produtos():
@@ -26,3 +29,16 @@ def calcular_proximo_id(lista):
             if p["id"] > maior_id:
                 maior_id = p["id"]
         return maior_id + 1
+
+
+# data_hora | ADD | id | nome | preço | estoque
+def registrar_evento(registro, funcao):
+    agora = datetime.now()
+    data_formatada = agora.strftime("%d/%m/%Y %H:%M:%S")
+
+
+    with open("log.txt", "a") as arquivo:
+        arquivo.write(data_formatada + " | ")
+        arquivo.write(funcao + " | ")
+        arquivo.write(str(registro["id"]) + " | " + str(registro["nome"] + " | ") + str(registro["preco"]) + " | " + str(registro["estoque"]))
+        arquivo.write("\n")

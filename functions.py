@@ -1,3 +1,5 @@
+from persistencia import registrar_evento
+
 # ===============================
 # Funções auxiliares reutilizáveis
 # ===============================
@@ -71,8 +73,7 @@ def adicionar_produto(lista, id_atual):
 
     lista.append(produto)
     print(f"Produto '{nome}' adicionado com sucesso!")
-    
-
+    registrar_evento(produto, "ADD")
 
 def listar_produtos(lista):
     if not lista:
@@ -96,7 +97,7 @@ def atualizar_produtos(lista):
 
     if not produto:
         print("Produto não encontrado!")
-        return
+        return 
 
     print("\nPRODUTO ENCONTRADO!")
     print(f"Nome: {produto['nome']}")
@@ -155,7 +156,7 @@ def atualizar_produtos(lista):
 def remover_produtos(lista):
     if not lista:
         print("Nenhum produto foi cadastrado!")
-        return
+        return 
 
     id_digitado = input_int("Digite o ID do produto que você deseja remover: ")
 
@@ -163,7 +164,7 @@ def remover_produtos(lista):
 
     if not produto:
         print("Produto não encontrado!")
-        return
+        return 
 
     print("\nPRODUTO ENCONTRADO!")
     print(f"Nome : {produto['nome']}")
@@ -175,7 +176,7 @@ def remover_produtos(lista):
 
         if escolha == "N":
             print("O produto não foi apagado.")
-            return
+            return False
         elif escolha == "S":
             lista.remove(produto)
             print("Produto removido com sucesso!")
