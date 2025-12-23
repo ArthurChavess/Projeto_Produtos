@@ -36,7 +36,7 @@ def input_texto(msg):
 def encontrar_produto(lista, id_digitado):
     """Retorna o produto com aquele ID ou None."""
     for p in lista:
-        if p["id"] == id_digitado:
+        if p['id'] == id_digitado:
             return p
     return None
 
@@ -73,7 +73,8 @@ def adicionar_produto(lista, id_atual):
 
     lista.append(produto)
     print(f"Produto '{nome}' adicionado com sucesso!")
-    registrar_evento(produto, "ADD")
+    registrar_evento(produto, "ADD", (f"{produto['nome']} | {produto['preco']} | {produto['estoque']}"))
+
 
 def listar_produtos(lista):
     if not lista:
@@ -91,12 +92,15 @@ def listar_produtos(lista):
 
 
 def atualizar_produtos(lista):
+    mudancas = []
+
     id_digitado = input_int("Digite o ID do produto que você deseja atualizar: ")
 
     produto = encontrar_produto(lista, id_digitado)
 
     if not produto:
         print("Produto não encontrado!")
+        registrar_evento({"id": id_digitado}, "UPDATE", "ERRO: produto não encontrado")
         return 
 
     print("\nPRODUTO ENCONTRADO!")
@@ -115,26 +119,36 @@ def atualizar_produtos(lista):
 
         if opcao == 4:
             print("Voltando ao menu...")
+            if len(mudancas) > 0:
+                separador = " ; "
+                detalhes_update = separador.join(mudancas)
+                registrar_evento(produto, "UPDATE", detalhes_update)
+            else:
+                registrar_evento(produto, "UPDATE", "INFO: Nenhuma alteração realizada")
             break
 
         elif opcao == 1:  # nome
             novo_nome = input_texto("Novo nome: ")
-            if novo_nome == produto["nome"]:
+            if novo_nome == produto['nome']:
                 print("O nome não pode ser igual ao anterior!")
             else:
-                produto["nome"] = novo_nome
+                nome_antigo = produto['nome']
+                produto['nome'] = novo_nome
                 print("Nome atualizado!")
+                mudancas.append(f"Nome: {nome_antigo} -> {produto['nome']}")
 
         elif opcao == 2:  # preço
             while True:
                 novo_preco = input_float("Novo preço: ")
                 if novo_preco < 0:
                     print("Valor deve ser maior que 0!")
-                elif novo_preco == produto["preco"]:
+                elif novo_preco == produto['preco']:
                     print("O preço não pode ser igual!")
                 else:
-                    produto["preco"] = novo_preco
+                    preco_antigo = produto['preco']
+                    produto['preco'] = novo_preco
                     print("Preço atualizado!")
+                    mudancas.append(f"Preço: {preco_antigo} -> {produto['preco']}")                   
                     break
 
         elif opcao == 3:  # estoque
@@ -142,13 +156,14 @@ def atualizar_produtos(lista):
                 novo_estoque = input_int("Novo estoque: ")
                 if novo_estoque < 0:
                     print("O estoque deve ser maior que 0!")
-                elif novo_estoque == produto["estoque"]:
+                elif novo_estoque == produto['estoque']:
                     print("O estoque não pode ser igual!")
                 else:
-                    produto["estoque"] = novo_estoque
+                    estoque_antigo = produto['estoque']
+                    produto['estoque'] = novo_estoque
                     print("Estoque atualizado!")
+                    mudancas.append(f"Estoque: {estoque_antigo} -> {produto['estoque']}")
                     break
-
         else:
             print("Opção inválida!")
 
@@ -164,6 +179,7 @@ def remover_produtos(lista):
 
     if not produto:
         print("Produto não encontrado!")
+        registrar_evento({"id": id_digitado}, "DELETE", "ERRO: produto não encontrado")
         return 
 
     print("\nPRODUTO ENCONTRADO!")
@@ -176,8 +192,10 @@ def remover_produtos(lista):
 
         if escolha == "N":
             print("O produto não foi apagado.")
+            registrar_evento(produto, "DELETE", "INFO: operação cancelada pelo usuário")
             return False
         elif escolha == "S":
+            registrar_evento(produto, "DELETE", (f"{produto['nome']} | {produto['preco']} | {produto['estoque']}"))
             lista.remove(produto)
             print("Produto removido com sucesso!")
             return

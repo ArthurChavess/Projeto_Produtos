@@ -1,4 +1,9 @@
-20/12/2025 12:31:07 | ADD | 1 | Fio | 1.9 | 300
-20/12/2025 12:31:18 | ADD | 2 | Relogio | 2000.0 | 10
-20/12/2025 12:31:34 | ADD | 3 | Celular | 4000.0 | 40
-20/12/2025 12:32:36 | ADD | 4 | Shampoo | 2.0 | 2
+22/12/2025 22:35:26 | ADD | 1 | Teclado | 150.0 | 10
+22/12/2025 22:36:01 | UPDATE | 1 | Preço: 150.0 -> 180.0
+22/12/2025 22:37:37 | UPDATE | 1 | Nome: Teclado -> Teclado Gamer ; Estoque: 10 -> 20
+22/12/2025 22:37:54 | UPDATE | 1 | INFO: Nenhuma alteração realizada
+22/12/2025 22:38:10 | UPDATE | 2 | ERRO: produto não encontrado
+22/12/2025 22:42:33 | DELETE | 1 | INFO: operação cancelada pelo usuário
+22/12/2025 22:42:46 | DELETE | 1 | Teclado Gamer | 180.0 | 20
+22/12/2025 22:43:01 | ADD | 2 | A | 2.0 | 2
+22/12/2025 22:43:05 | DELETE | 3 | ERRO: produto não encontrado
